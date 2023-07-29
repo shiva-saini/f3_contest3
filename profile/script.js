@@ -9,6 +9,7 @@ let logoutButton = document.getElementById('logoutBtn')
 let userArray= JSON.parse(localStorage.getItem('users'));
 let userToken = localStorage.getItem('token');
 
+
 userArray.forEach(obj => {
    if(obj.token == userToken){
       console.log(obj.token)
@@ -20,3 +21,37 @@ userArray.forEach(obj => {
 });
 
 
+logoutButton.addEventListener('click',(event) =>{
+     event.preventDefault();
+     let currentUserToken = tokenDiv.innerText;
+     console.log(currentUserToken);
+     let userArray= JSON.parse(localStorage.getItem('users'));
+     updatedArray = userArray.filter(obj => {
+       return  obj.token !== currentUserToken
+     })
+     localStorage.setItem('users',JSON.stringify(updatedArray));
+     localStorage.removeItem('token');
+    location.href = '../'
+})
+
+
+
+
+function isLoggedIn() {
+    let userToken = localStorage.getItem('token');
+    if(userToken){
+        return true;
+    }
+    return false; // Change this to 'true' if the user is logged in
+}
+
+function redirectToLogin() {
+    window.location.href = "login.html";
+}
+
+function initProfilePage() {
+    if (!isLoggedIn()) {
+      redirectToLogin();
+    }
+}
+document.addEventListener("DOMContentLoaded", initProfilePage);

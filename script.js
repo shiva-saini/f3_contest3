@@ -12,12 +12,16 @@ signupButton.addEventListener('click', (event) => {
      let confirm_password = confirm_passowrd_Input.value;
 
      if(name.trim() === '' || email.trim() === '' || password.trim() === '' || confirm_password.trim() === ''){
-        errorDiv.innerText = "Invalid credintials";
+        errorDiv.innerText = "Error : All fields are mendatory!";
+        errorDiv.style.display = 'flex'
+        return;
      }else{
         let userArray = JSON.parse(localStorage.getItem('users'));
         if(userArray){
             if(checkUserAlreadyExists(email)){
                 errorDiv.innerText = 'Account already exists! Please login';
+                errorDiv.style.display = 'flex'
+                return;
             }else{
                 let token = generateToken(16);
                 let userObj = {
